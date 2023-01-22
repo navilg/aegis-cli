@@ -36,10 +36,12 @@ func ItemsTUI(db DB) {
 	list.AddItem("Quit", "", rune(0), func() {
 		app.Stop()
 	})
+
 	for _, entry := range db.Entries {
 		list.AddItem(entry.Issuer, entry.Name, rune(0), func() {
 			app.Stop()
-			OTPTUI(entry.Info.Secret, entry.Info.Algo, entry.Info.Digits, entry.Info.Period)
+			i := list.GetCurrentItem()
+			OTPTUI(i-1, db) // i-1 because Quit is zeroth item in list
 		})
 	}
 
@@ -55,12 +57,20 @@ func ItemsTUI(db DB) {
 
 }
 
-func OTPTUI(secret, algo string, digits, period int) {
+func OTPTUI(i int, db DB) {
 	app = tview.NewApplication()
 	form = tview.NewForm()
+	var j int = 0
+	var token string
+	for _, entry := range db.Entries {
+		if i == j {
+			token = GenerateTOTP(entry.Info.Secret, entry.Info.Algo, otp.Digits(entry.Info.Digits), uint(entry.Info.Period))
+			break
+		}
+		j = j + 1
+	}
 
-	otp := GenerateTOTP(secret, algo, otp.Digits(digits), uint(period))
-	form.AddTextArea("OTP", otp, 8, 1, 10, nil)
+	form.AddTextArea("OTP", token, 8, 1, 10, nil)
 	// form.AddButton(otp, func() {
 	// 	app.Stop()
 	// })
