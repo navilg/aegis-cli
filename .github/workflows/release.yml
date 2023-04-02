@@ -90,3 +90,4 @@ jobs:
             aegis-cli-linux-arm64
             aegis-cli-macos-x86_64
             aegis-cli-macos-arm64
+          generate_release_notes: true
