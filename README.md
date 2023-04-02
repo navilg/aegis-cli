@@ -3,21 +3,80 @@ Command-line interface to generate 2FA from Aegis' json file
 
 # How to use
 
-1. Install the binary on your system
+## 1. Install
 
+<details>
+<summary><b>Linux</b></summary>
+
+Download:
+* [x86_64](https://github.com/navilg/aegis-cli/releases/latest/download/aegis-cli-linux-x86_64) Intel or AMD 64-Bit CPU
+  ```shell
+  curl -L "https://github.com/navilg/aegis-cli/releases/latest/download/aegis-cli-linux-x86_64" \
+       -o "aegis-cli" && \
+  chmod +x "aegis-cli"
+  ```
+* [arm64](https://github.com/navilg/aegis-cli/releases/latest/download/aegis-cli-linux-arm64) Arm-based 64-Bit CPU (i.e. in Raspberry Pi)
+  ```shell
+  curl -L "https://github.com/navilg/aegis-cli/releases/latest/download/aegis-cli-linux-arm64" \
+       -o "aegis-cli" && \
+  chmod +x "aegis-cli"
+  ```
+
+> To determine your OS version, run `getconf LONG_BIT` or `uname -m` at the command line.
+
+Move:
+```shell
+sudo mv aegis-cli /usr/bin/aegis-cli
 ```
-VERSION=latest # For specific version, VERSION=0.2.0
-curl -LO https://github.com/navilg/aegis-cli/raw/main/assets/bin/aegis-cli-linux-${VERSION}
-chmod +x aegis-cli-linux-${VERSION}
-sudo mv aegis-cli-linux-${VERSION} /usr/bin/aegis-cli
+
+</details>
+
+<details>
+<summary><b>macOS</b></summary>
+
+Download:
+* [x86_64](https://github.com/navilg/aegis-cli/releases/latest/download/aegis-cli-macos-x86_64) Intel 64-bit
+  ```shell
+  curl -L "https://github.com/navilg/aegis-cli/releases/latest/download/aegis-cli-macos-x86_64" \
+       -o "aegis-cli" && \
+  chmod +x "aegis-cli"
+  ```
+* [arm64](https://github.com/navilg/aegis-cli/releases/latest/download/aegis-cli-macos-arm64) Apple silicon 64-bit
+  ```shell
+  curl -L "https://github.com/navilg/aegis-cli/releases/latest/download/aegis-cli-macos-arm64" \
+       -o "aegis-cli" && \
+  chmod +x "aegis-cli"
+  ```
+
+> To determine your OS version, run `uname -m` at the command line.
+
+Move:
+```shell
+mv aegis-cli ~/Applications/aegis-cli
 ```
 
-2. Export vault (encryoted) from your mobile app and put the vault file on your system under `$HOME/.config/aegis-cli` with filename `aegis.json`
+Tip:
 
+* Add `~/Applications/` to your `$PATH`
+    ```shell
+    echo 'export PATH="$HOME/Applications/:$PATH"' >> ~/.zshrc
+    ```
+* Or, add `~/Applications/aegis-cli` as alias for `aegis-cli`
+    ```shell
+    echo 'alias aegis-cli="$HOME/Applications/aegis-cli"' >> ~/.zshrc
+    ```
 
-3. Execute aegis cli
+</details>
 
-```
+## 2. Export
+
+Export vault (encrypted) from your mobile app and put the vault file on your system under `$HOME/.config/aegis-cli` with filename `aegis.json`.
+
+## 3. Execute
+
+Execute aegis cli:
+
+```shell
 aegis-cli
 ```
 
@@ -43,7 +102,7 @@ Vault is encrypted using 256-bit master key. This master key is encrypted with c
 
 Vault format:
 
-```
+```json
 {
     "version": 1,
     "header": {},
@@ -55,7 +114,7 @@ db contains vault content. If its encrypted, Its value is base64 encoded (with p
 
 Header contains `slots` and `params`. 
 
-```
+```json
 {
     "slots": [],
     "params": {
